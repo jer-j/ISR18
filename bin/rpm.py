@@ -31,7 +31,7 @@ def joe_rpm():
         if rpm1_state != rpm1_prev_state:
             if rpm1_state == 1:
                 time_secs = time.time()
-                if (len(rpm1_10_time_entries) >= moving_average_count):
+                if len(rpm1_10_time_entries) >= moving_average_count:
                     rpm1_10_time_entries.pop(0)
                 duration = time_secs - rpm1_10_time_entries[0]
                 rpm1_10_time_entries.append(time_secs)
@@ -43,7 +43,7 @@ def joe_rpm():
         if rpm2_state != rpm2_prev_state:
             if rpm2_state == 1:
                 time_secs = time.time()
-                if (len(rpm2_10_time_entries) >= moving_average_count):
+                if len(rpm2_10_time_entries) >= moving_average_count:
                     rpm2_10_time_entries.pop(0)
                 duration = time_secs - rpm2_10_time_entries[0]
                 rpm2_10_time_entries.append(time_secs)
@@ -51,22 +51,24 @@ def joe_rpm():
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 data_to_log += f"Sensor2, {timestamp}"
         rpm2_prev_state = rpm2_state
-        
-        if (time.time() - log_time >= 10):
+
+        if time.time() - log_time >= 10:
             with open(f"bulk_rpm_data.csv", "a") as f:
                 for entry in data_to_log:
                     f.write(entry)
             print("Data logged")
             data_to_log = []
             log_time = time.time()
-        
+
 
 if __name__ == "__main__":
     # Define the file path with the run number
-    sensor_file_path = os.path.join("/home/hps/ISR18/Combined_Stuff/Data_Logging_Files", f"bulk_rpm_data.csv")
+    sensor_file_path = os.path.join(
+        "/home/hps/ISR18/Combined_Stuff/Data_Logging_Files", f"bulk_rpm_data.csv"
+    )
 
     with open(sensor_file_path, "a") as f:
         f.write(f"RPM Number, Timestamp\n")
         print("Sensor data logged.")
-    
+
     joe_rpm()

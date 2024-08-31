@@ -24,7 +24,7 @@ import Battery_Warning
 LOG_TIME = time.time()
 
 G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
-AA =  0.40      # Complementary filter constant
+AA = 0.40  # Complementary filter constant
 
 DEFAULT_SPEED = 0
 ANGLE_0_PWM = 900
@@ -79,8 +79,8 @@ pwm_pitch = pigpio.pi()
 pwm_yaw = pigpio.pi()
 
 # Set PWM pin
-PWM_PITCH_PIN = 18 # Servo 2
-PWM_YAW_PIN = 19 # Servo 1
+PWM_PITCH_PIN = 18  # Servo 2
+PWM_YAW_PIN = 19  # Servo 1
 
 pwm_pitch.set_mode(PWM_PITCH_PIN, pigpio.OUTPUT)
 pwm_pitch.set_PWM_frequency(PWM_PITCH_PIN, PWM_FREQ)
@@ -100,13 +100,14 @@ sensors = Sensors(channel1, channel2)
 #                               Functions                                  #
 ############################################################################
 
+
 def main():
-    # Initialize IMU 
-    IMU.detectIMU()     #Detect if BerryIMU is connected.
-    if(IMU.BerryIMUversion == 99):
+    # Initialize IMU
+    IMU.detectIMU()  # Detect if BerryIMU is connected.
+    if IMU.BerryIMUversion == 99:
         print(" No BerryIMU found... exiting ")
         sys.exit()
-    IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
+    IMU.initIMU()  # Initialise the accelerometer, gyroscope and compass
 
     # Zero servos
     pwm_pitch.set_PWM_dutycycle(PWM_PITCH_PIN, fin_angle_to_dc(0))
@@ -116,7 +117,7 @@ def main():
     voltage_data = []
     for _ in range(10):
         voltage_data.append(sensors.read_sensor_vals()[9])
-        
+
     sensors.battery_testing(voltage_data)
     print("Battery safe")
 
@@ -130,32 +131,36 @@ def main():
             reset_loop()
     finally:
         cleanup()
-    
+
     # Setup Datalogging
-        
+
+
 def create_run_log():
-    
+
     # Define the file path with the run number
     # sensor_file_path = os.path.join("/home/hps/ISR18/Combined_Stuff", f"sensor_data_run_{run_number}.csv")
 
     with open(f"sensor_data_run_{run_number}.csv", "a") as f:
-        f.write(f"Timestamp, ACCx, ACCy, ACCz, GYRx, GYRy, GYRz, MAGx, MAGy, MAGz, pressure1, pressure2, yaw, pitch, depth, velocity\n")
+        f.write(
+            f"Timestamp, ACCx, ACCy, ACCz, GYRx, GYRy, GYRz, MAGx, MAGy, MAGz, pressure1, pressure2, yaw, pitch, depth, velocity\n"
+        )
         print("Sensor data logged.")
 
 
 # wait_button.wait_for_press()
 # log_sensor_values()
 
+
 def do_run():
     global DATA_TO_LOG
     global LOG_TIME
     global run_number
-    
+
     # Ensure button is no longer pressed
     while wait_button.value == 0:
         continue
 
-    #servo time for measuring adjustment timing
+    # servo time for measuring adjustment timing
     servo_time = time.time()
     set_ideal_depth(sensors.read_sensor_vals()[13])
 
@@ -163,15 +168,31 @@ def do_run():
     wait_button_pressed = False
     while True:
         time.sleep(0.25)
-        ACCx, ACCy, ACCz, GYRx, GYRy, GYRz, MAGx, MAGy, MAGz, pressure1, pressure2, yaw, pitch, depth, velocity = sensors.read_sensor_vals()
-        
+        (
+            ACCx,
+            ACCy,
+            ACCz,
+            GYRx,
+            GYRy,
+            GYRz,
+            MAGx,
+            MAGy,
+            MAGz,
+            pressure1,
+            pressure2,
+            yaw,
+            pitch,
+            depth,
+            velocity,
+        ) = sensors.read_sensor_vals()
+
         # current time - the last time the servos were adjusted >= 500 ms
         if time.time() - servo_time >= 0.5:
-            
+
             # autonomous function
             set_pitch = pitch_auto_control(0, depth, IDEAL_DEPTH)
             set_yaw = yaw_auto_control(0)
-            
+
             # set servos
             # pwm_pitch.set_PWM_dutycycle(PWM_PITCH_PIN, fin_angle_to_dc(set_pitch))
             # pwm_yaw.set_PWM_dutycycle(PWM_YAW_PIN, fin_angle_to_dc(set_yaw))
@@ -201,7 +222,6 @@ def do_run():
     run_number += 1
 
 
-
 def reset_loop():
     LOG_TIME = time.time()
     global DATA_TO_LOG
@@ -212,22 +232,24 @@ def reset_loop():
         print("Data logged.")
         DATA_TO_LOG = []
         LOG_TIME = time.time()
-    
+
     create_run_log()
     do_run()
     pass
+
 
 def cleanup():
     global DATA_TO_LOG
     with open(f"sensor_data_run_{run_number}.csv", "a") as f:
         for data_entry in DATA_TO_LOG:
-                f.write(data_entry)
+            f.write(data_entry)
     print("Data logged.")
     DATA_TO_LOG = []
 
     Battery_Warning.check_for_low_battery
 
     pass
+
 
 if __name__ == "__main__":
     DATA_TO_LOG = []

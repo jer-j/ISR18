@@ -18,11 +18,13 @@ time_data = []
 voltage_data = [0] * voltage_sample_size  # Initialize with zeros
 voltage_data_index = 0
 
+
 def check_for_low_battery(voltage_data):
     for voltage in voltage_data:
         if voltage > warning_voltage:
             return False
     return True
+
 
 def check_for_dead_battery(voltage_data):
     for voltage in voltage_data:
@@ -30,9 +32,10 @@ def check_for_dead_battery(voltage_data):
             return False
     return True
 
+
 def low_battery_warning():
     print("Hey man your battery is low")
 
+
 def dead_battery_warning():
     print("your battery is dead bro")
-
