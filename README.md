@@ -1,5 +1,25 @@
 # ISR18
 
+## Repo Organization
+```
+\bin actual main loop
+\lib helper functions and scripts
+    \imu boilerplate IMU code (source from here, do not clone)\pd_autonomous Ben's PD controller code
+    \sensors various utilities
+\pictures
+\tests
+    \data test data
+    \... other tests 
+```
+- avoid duplicating code
+- use `snake_case`
+- use the exisiting folders as much possible
+- use a virtual enviornment, install packages with `pip install requirements.txt`
+> if you add dependency, update the `requirements.txt` with `pip freeze > requirements.txt`
+
+
+
+
 ## Perf Board Wiring Diagram
 
 ![image](https://github.com/VT-HPS/ISR18/blob/main/Pictures/HPS%20Perfboard%20Wiring%20Diagram.png)
