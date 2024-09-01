@@ -19,7 +19,7 @@
 - avoid duplicating code
 - use `snake_case`, i.e. PEP style guide
 - use the exisiting folders as much possible
-- use a virtual enviornment, install packages with `pip install requirements.txt`
+- use a virtual environment, install packages with `pip install requirements.txt`
 > if you add dependency, update the `requirements.txt` with `pip freeze > requirements.txt`
 
 > to create a subpackage (not a module which is a .py file), use the following standard directory structure 
