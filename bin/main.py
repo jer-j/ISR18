@@ -21,8 +21,11 @@ from lib.battery_warning import *
 #                               Variables                                  #
 ############################################################################
 
-LOG_TIME = time.time()
+global DATA_TO_LOG
+global LOG_TIME
+global run_number
 
+LOG_TIME = time.time()
 G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
 AA = 0.40  # Complementary filter constant
 
@@ -90,9 +93,6 @@ pwm_yaw.set_mode(PWM_PITCH_PIN, pigpio.OUTPUT)
 pwm_yaw.set_PWM_frequency(PWM_PITCH_PIN, PWM_FREQ)
 pwm_yaw.set_PWM_range(PWM_PITCH_PIN, 100)
 
-# Test runs
-global run_number
-
 # Setup Sensor Class
 sensors = Sensors(channel1, channel2)
 
@@ -137,8 +137,8 @@ def main():
 
 def create_run_log():
 
-    # Define the file path with the run number
     # sensor_file_path = os.path.join("/home/hps/ISR18/Combined_Stuff", f"sensor_data_run_{run_number}.csv")
+    # Define the file path with the run number
 
     with open(f"sensor_data_run_{run_number}.csv", "a") as f:
         f.write(
@@ -152,10 +152,6 @@ def create_run_log():
 
 
 def do_run():
-    global DATA_TO_LOG
-    global LOG_TIME
-    global run_number
-
     # Ensure button is no longer pressed
     while wait_button.value == 0:
         continue
@@ -246,7 +242,7 @@ def cleanup():
     print("Data logged.")
     DATA_TO_LOG = []
 
-    Battery_Warning.check_for_low_battery
+    check_for_low_battery()
 
     pass
 
