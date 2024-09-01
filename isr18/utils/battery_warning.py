@@ -1,6 +1,7 @@
 import time
 import board
 import adafruit_ina260
+import logging as log
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 ina260 = adafruit_ina260.INA260(i2c)
@@ -34,8 +35,8 @@ def check_for_dead_battery(voltage_data):
 
 
 def low_battery_warning():
-    print("Hey man your battery is low")
+    log.info("Hey man your battery is low")
 
 
 def dead_battery_warning():
-    print("your battery is dead bro")
+    log.error("your battery is dead bro")

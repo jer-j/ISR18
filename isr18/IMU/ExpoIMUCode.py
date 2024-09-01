@@ -19,7 +19,7 @@
 
 import time
 import math
-import IMU
+import imu
 import datetime
 import os
 import sys

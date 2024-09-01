@@ -1,9 +1,10 @@
+import sys
+
 import time
 import math
-import lib.imu as IMU
+import sys
 import datetime
 import os
-import sys
 import board
 import busio
 import adafruit_ads1x15.ads1115 as ADS
@@ -11,10 +12,12 @@ from adafruit_ads1x15.analog_in import AnalogIn
 from gpiozero import Button
 import adafruit_ina260
 import threading
+
+import isr18.IMU as IMU
+
 from servo import *
 from sensors import Sensors
 from automous_reactive import *
-from lib.battery_warning import *
 
 
 ############################################################################

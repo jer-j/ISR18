@@ -1,6 +1,6 @@
 import time
 import math
-import IMU.IMU as IMU
+import lib.imu.IMU as IMU
 import datetime
 import os
 import sys

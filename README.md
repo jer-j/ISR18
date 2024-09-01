@@ -2,23 +2,39 @@
 
 ## Repo Organization
 ```
-\bin actual main loop
-\lib helper functions and scripts
-    \imu boilerplate IMU code (source from here, do not clone)\pd_autonomous Ben's PD controller code
-    \sensors various utilities
+\scripts # Scripts for setup, deployment, or data collection
+\isr18
+    \IMU     boilerplate IMU code (source from here, do not clone)
+    \controls pd controller
+    \sensors depth sensor
+    \screen  
+    \utils
+        \logger.py logging things
+        \config.py configs, magic numbers, constants
 \pictures
 \tests
     \data test data
     \... other tests 
 ```
 - avoid duplicating code
-- use `snake_case`
+- use `snake_case`, i.e. PEP style guide
 - use the exisiting folders as much possible
 - use a virtual enviornment, install packages with `pip install requirements.txt`
 > if you add dependency, update the `requirements.txt` with `pip freeze > requirements.txt`
 
+> to create a subpackage (not a module which is a .py file), use the following standard directory structure 
+```
+\ISR18 
+    \isr18
+        \subpkg
+            __init__.py
+            module1.py
+```
 
-
+```python
+# __init__.py
+from .subpkg import module1 # or whatever other things you want to be available when this subpkg imports
+```
 
 ## Perf Board Wiring Diagram
 
