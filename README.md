@@ -4,7 +4,8 @@
 ```
 \bin actual main loop
 \lib helper functions and scripts
-    \imu boilerplate IMU code (source from here, do not clone)\pd_autonomous Ben's PD controller code
+    \imu boilerplate IMU code (source from here, do not clone)
+    \pd_autonomous Ben's PD controller code
     \sensors various utilities
 \pictures
 \tests
