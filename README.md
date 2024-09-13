@@ -36,6 +36,28 @@
 from .subpkg import module1 # or whatever other things you want to be available when this subpkg imports
 ```
 
+## Vision
+This package will be responsible for the following:
+1. collecting IMU data
+2. passing IMU data to controller
+3. passing controller output to motors
+4. monitoring battery charge
+5. logging the history of the above mentioned events and states
+6. maintaing and updating a GUI
+7. doing all of the above concurrently using `multiprocessing`
+
+We will implement the following classes:
+- `IMU`
+- `Motor`
+- `GUI`
+- `Controller`
+
+
+
+
+
+
+
 ## Perf Board Wiring Diagram
 
 ![image](https://github.com/VT-HPS/ISR18/blob/main/Pictures/HPS%20Perfboard%20Wiring%20Diagram.png)
